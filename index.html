@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="head">
+
+                <ul>
+                    <li>
+
+                        <a href="#portal" class="portal">Goverment portal</a>
+                    </li>
+
+                    <span class="list">
+                        <li><a href="otp.html">Register</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a onclick="log(out)">Logout</a></li>
+                    </span>
+
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section id="#register">
+        <h2>Register</h1>
+            <h3>Keep documents easily in Digital form!!!</h3>
+            <p>Welcome to our registration page! Please fill out the form below to create your account.</p>
+            <br>
+            <a href="otp.html" class="btn">Register</a>
+    </section>
+    <br>
+    <section id="#login">
+        <h2>Login</h1>
+            <h3>Login to upload, update or share the documents</h3>
+            <p>
+                Welcome back! Please enter your credentials to log in to your account.
+            </p>
+            <br>
+            <a href="login.html" class="btn">Login</a>
+
+
+    </section>
+    <br>
+    <footer>
+        <div id="signoutsuccess">
+
+        </div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-auth-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCLwJ96ah5BmxRy_Wx2KwHZaIisrhI5BmM",
+            authDomain: "gov--docin-c7110.firebaseapp.com",
+            projectId: "gov--docin-c7110",
+            storageBucket: "gov--docin-c7110.firebasestorage.app",
+            messagingSenderId: "335920098903",
+            appId: "1:335920098903:web:9d5fd43d2103df67223d12"
+        };
+
+        // Initialize Firebase
+        const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+
+        const db = firebaseApp.firestore();
+        const auth = firebaseApp.auth();
+    </script>
+
+    <script src="auth.js"></script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+</head>
+
+<body>
+    <!-- OTP verification before registration -->
+    <div class="form">
+        <h2>OTP Verification</h2>
+        <form>
+
+            <label class="text"><b>Phone number: (+91 XXXX)</b>
+                <br>
+                <input type="text" id="phonenum" required>
+            </label>
+            <div id="recaptcha-container"></div>
+            <br>
+            <button onclick="phoneAuth(event)">Send OTP</button>
+            <br>
+
+            <label class="text"><b>Enter OTP sent on your number:</b>
+                <br>
+                <input type="text" id="otp" required>
+            </label>
+            <br>
+
+            <button onclick="verifyCode(event)">Verify OTP</button>
+        </form>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-auth-compat.js"></script>
+
+    <!-- Firebase and OTP Verification Scripts -->
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+    apiKey: "AIzaSyCLwJ96ah5BmxRy_Wx2KwHZaIisrhI5BmM",
+    authDomain: "gov--docin-c7110.firebaseapp.com",
+    projectId: "gov--docin-c7110",
+    storageBucket: "gov--docin-c7110.firebasestorage.app",
+    messagingSenderId: "335920098903",
+    appId: "1:335920098903:web:9d5fd43d2103df67223d12"
+  };
+
+
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firebase Authentication and Firestore
+        const auth = firebase.auth();
+
+        function render() {
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+            recaptchaVerifier.render();
+        }
+
+        function phoneAuth(e) {
+            e.preventDefault();
+            const phoneNumber = document.getElementById('phonenum').value;
+            const appVerifier = window.recaptchaVerifier;
+            auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then((confirmationResult) => {
+                    window.confirmationResult = confirmationResult;
+                    alert("OTP sent");
+                    console.log('OTP Sent');
+                }).catch((error) => {
+                    alert(error.message);
+                });
+        }
+
+        function verifyCode(e) {
+            e.preventDefault();
+            const code = document.getElementById('otp').value;
+            window.confirmationResult.confirm(code).then(function () {
+                console.log("OTP verified");
+                alert("OTP verified");
+                setTimeout(function () {
+                    window.location = 'register.html';
+                }, 1000);
+            }).catch(function () {
+                console.log("OTP not correct");
+                alert("OTP not correct");
+            });
+        }
+
+        window.onload = render;
+    </script>
+
+    <!-- Inline CSS for styling -->
+    <style>
+        .form {
+            height: 100vh;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        body {
+            background-color: #a4a8f4;
+        }
+
+        .text {
+            font-weight: bold;
+        }
+    </style>
+</body>
+
+</html>

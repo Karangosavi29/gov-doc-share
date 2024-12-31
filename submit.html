@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  //FORM TO SUBMIT DETAILS
+  <h2>My Profile</h2>
+  <form id="profile-form" autocomplete="off">
+    <div class="profile">
+      <label>First Name:
+
+        <input type="text" placeholder="First Name" id="firstname"></label>
+      <br>
+      <label>Last Name:
+
+        <input type="text" placeholder="Last Name" id="lastname"></label>
+      <br>
+
+      <label>Aadhar number:
+        <input type="text" id="aadharNumber" placeholder="Aadhaar Number" required>
+        <br>
+        <label> Email:
+          <input type="email" placeholder="abc@gmail.com" id="email">
+        </label>
+        <br>
+
+
+        <label>Gender:
+          <br>
+          <input type="text" id="gender"></label>
+        <br>
+        <label>Date of Birth:<br>
+          <input type="text" placeholder="dd/mm/yy" id="date"></label>
+
+      </label>
+      <br>
+      <label>Age:
+        <br>
+        <input type="text" id="age"></label>
+      </label>
+      <br>
+
+      <label>Country:
+        <br>
+        <input type="text" id="country"></label>
+      </label>
+      <br>
+      <label>State:
+        <br>
+        <input type="text" placeholder="State" id="state">
+      </label>
+      <br>
+      <label>City:
+        <br>
+        <input type="text" placeholder="city" id="city">
+      </label>
+      <br>
+      <input type="submit" class="submit">
+
+      <div id="message"></div>
+    </div>
+
+
+  </form>
+
+  <div id="profile-details"></div>
+  <style>
+    body {
+      background-color: #a4a8f4;
+      font-size: larger;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .submit {
+      background-color: orange;
+    }
+
+    .profile {
+      box-sizing: border-box;
+    }
+
+    #profile-details {
+      background-color: white;
+      text-align: center;
+
+    }
+  </style>
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.4/firebase-storage-compat.js"></script>
+
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLwJ96ah5BmxRy_Wx2KwHZaIisrhI5BmM",
+      authDomain: "gov--docin-c7110.firebaseapp.com",
+      projectId: "gov--docin-c7110",
+      storageBucket: "gov--docin-c7110.firebasestorage.app",
+      messagingSenderId: "335920098903",
+      appId: "1:335920098903:web:9d5fd43d2103df67223d12"
+    };
+    // Initialize Firebase
+    const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+
+    const db = firebaseApp.firestore();
+    const auth = firebaseApp.auth();
+
+    const storage = firebase.storage();
+
+
+    const form = document.getElementById('profile-form');
+    form.addEventListener('submit', submit);
+
+    function submit(e) {
+      e.preventDefault(); // Prevent the form from submitting in the traditional way
+      const firstname1 = document.getElementById('firstname').value;
+      const lastname1 = document.getElementById('lastname').value;
+      const gender1 = document.getElementById('gender').value;
+      const date1 = document.getElementById('date').value;
+      const age1 = document.getElementById('age').value;
+      const country1 = document.getElementById('country').value;
+      const state1 = document.getElementById('state').value;
+      const city1 = document.getElementById('city').value;
+      const aadharNumber1 = document.getElementById('aadharNumber').value;
+      const email1 = document.getElementById('email').value;
+
+
+      // Validate Aadhaar number (basic validation)
+
+
+      // Store the data in Firestore with Aadhaar number as document ID
+      db.collection('users').doc(aadharNumber1).set({
+
+        Firstname: firstname1,
+        Lastname: lastname1,
+        Email: email1,
+        Gender: gender1,
+        Date: date1,
+        Age: age1,
+        Country: country1,
+        State: state1,
+        City: city1,
+
+
+      })
+        .then(() => {
+          document.getElementById('message').innerText = "Profile information submitted successfully!";
+          document.getElementById('message').style.color = "green";
+          console.log("submitted successfully");
+          displayProfile(aadharNumber1);
+          // Clear the form
+
+        })
+        .catch((error) => {
+          console.error("Error storing profile information: ", error);
+          document.getElementById('message').innerText = "Error submitting profile information.";
+          document.getElementById('message').style.color = "red";
+        })
+    };
+
+    function displayProfile(aadharNumber1) {
+      db.collection('users').doc(aadharNumber1).get().then((doc) => {
+        if (doc.exists) {
+          const profile = doc.data();
+          document.getElementById('profile-details').innerHTML = `
+                <h2>Profile Details</h2>
+                <p><strong>First Name : </strong>${profile.Firstname}</p>
+                <p><strong>Last Name : </strong>${profile.Lastname}</p>
+                <p><strong>Aadhar:</strong> ${aadharNumber1}</p>
+                
+                <p><strong>Email:</strong> ${profile.Email}</p>
+                <p><strong>Gender:</strong> ${profile.Gender}</p>
+                <p><strong>DOB :</strong> ${profile.Date}</p>
+                <p><strong>Age:</strong> ${profile.Age}</p>
+                <p><strong>Country:</strong> ${profile.Country}</p>
+                <p><strong>State:</strong> ${profile.State}</p>
+                <p><strong>City:</strong> ${profile.City}</p>
+
+                
+            `;
+        } else {
+          document.getElementById('profile-details').innerHTML = 'No profile found';
+        }
+      }).catch((error) => {
+        console.error('Error getting profile: ', error);
+      });
+    }
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>

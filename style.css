@@ -1,0 +1,63 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    display: inline;
+    padding: 2px;
+    border-radius: 10px;
+    margin: 5px;
+    font-size: 20px;
+}
+
+nav li a {
+    text-decoration: none;
+    color: #ffffff; /* Changed to white for better contrast */
+}
+
+.list {
+    float: right;
+}
+
+nav {
+    padding: 10px; /* Increased padding for better appearance */
+    width: 100%;
+    background-color: #0c053b; 
+    color: white;
+}
+
+.portal {
+    float: left;
+    font-size: 25px;
+}
+
+section {
+    text-align: center;
+    padding: 2rem;
+    font-size: larger;
+}
+
+.btn {
+    display: inline-block;
+    color: white;
+    box-sizing: border-box;
+    background-color: #0e3f74; /* Changed to a blue color */
+    border: solid 2px #0e3f74; /* Darker blue border */
+    padding: 10px 20px; /* Adjusted padding for a better look */
+    border-radius: 5px;
+    text-decoration: none; /* Ensures button text has no underline */
+}
+
+.btn:hover {
+    color: white; /* Changed hover text color to white */
+    background-color: #0056b3; /* Changed hover background color to darker blue */
+}
+
+h2, h3 {
+    color: #333333; /* Darker text color for better readability */
+}
+
+p {
+    color: #666666; /* Light grey text color */
+}
